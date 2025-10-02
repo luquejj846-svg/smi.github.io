@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feliz primer día de octubre</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Georgia", serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero {
+      position: relative;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: background-image 1s ease-in-out;
+    }
+    h1 {
+      font-size: 3em;
+      background: rgba(0,0,0,0.4);
+      padding: 20px;
+      border-radius: 15px;
+      color: #ffdbe0; /* rosa pálido */
+    }
+    .sub {
+      font-size: 1.5em;
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+      max-width: 800px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background: rgba(255,255,255,1);
+    }
+    iframe {
+      display: none; /* Ocultamos el reproductor */
+    }
+  </style>
+</head>
+<body>
+  <div class="hero" id="hero">
+    <h1>🌸 Feliz primer día de octubre 🌸</h1>
+    <p class="sub">🧡 Que este mes te traiga flores, calma y momentos lindos 🌸</p>
+    <p class="sub">🌷 Eres dalia que en mis sueños anida,<br>
+    raíz de amor que la vida germina.<br>
+    En cada pétalo guardo tu sonrisa,<br>
+    en cada aroma descansa mi prisa.<br>
+    Si el mundo calla y la noche me olvida,<br>
+    serás dalia pura, mi luz encendida. 🧡</p>
+    <p class="sub">🌟 Deseo de todo corazón que todo este mes venga lleno de amor y felicidad para ti 🧡</p>
+    <button onclick="cambiarFondo()">Cambiar fondo</button>
+    <button onclick="toggleMusic()">⏯ Música</button>
+  </div>
+
+  <!-- YouTube embed oculto -->
+  <iframe id="ytplayer" width="560" height="315"
+    src="https://www.youtube.com/embed/wkSjA-FkmsY?enablejsapi=1&rel=0&controls=0&loop=1&playlist=wkSjA-FkmsY&mute=1&autoplay=1"
+    frameborder="0" allow="autoplay; encrypted-media"></iframe>
+
+  <script>
+    // Lista de fondos
+    const fondos = [
+      "https://media.istockphoto.com/id/1758950379/es/foto/paisaje-del-cielo-y-el-cosmos.webp?s=2048x2048&w=is&k=20&c=pqfA6XStw5JVWqMGVlIAJqQl2EBY-U7f3gOHNJIsVoU=",
+      "https://media.istockphoto.com/id/523651861/es/foto/cosmos-campo.jpg?s=2048x2048&w=is&k=20&c=p5a0yqFh9jNU8viaiXkRNOJtlWhJzBS5LGWz_FXb1JI=",
+      "https://media.istockphoto.com/id/185239253/es/foto/campo-de-tulipanes-en-hdr.jpg?s=2048x2048&w=is&k=20&c=gRa2mdav5TfIaR8SXeJ6_DbdrHku6QyBN72Z1kELKlU="
+    ];
+    let fondoIndex = 0;
+    const hero = document.getElementById("hero");
+
+    // Fondo inicial
+    hero.style.backgroundImage = `url(${fondos[0]})`;
+
+    function cambiarFondo() {
+      fondoIndex = (fondoIndex + 1) % fondos.length;
+      hero.style.backgroundImage = `url(${fondos[fondoIndex]})`;
+    }
+
+    // Cambio automático cada 10 segundos
+    setInterval(cambiarFondo, 10000);
+
+    // Control de música con la API de YouTube
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytplayer', {
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      // Reproduce automáticamente al cargar (muted para evitar bloqueo)
+      event.target.playVideo();
+    }
+
+    function toggleMusic() {
+      if (player && player.getPlayerState() === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+      } else if (player) {
+        player.playVideo();
+      }
+    }
+
+    // Insertar API de YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+  </script>
+</body>
+</html>
